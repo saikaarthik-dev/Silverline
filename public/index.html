@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>silverline | bespoke elegance</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="splash-screen">
+        <h1 class="extra-large">silverline</h1>
+        <p>Bespoke Elegance Awaits</p>
+    </div>
+
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-inner"></div>
+
+    <!-- Authentication Overlay -->
+    <div id="login-overlay" class="overlay">
+        <div class="login-card">
+            <h1 class="brand">silverline</h1>
+
+            <!-- Login View -->
+            <div id="auth-login" class="auth-view active">
+                <p class="auth-subtitle">Authenticated Access Required</p>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="l-email" placeholder="email@maison.com" required>
+                    </div>
+                    <div class="form-group" style="text-align: left; margin-bottom: 4rem;">
+                        <label>Passphrase</label>
+                        <input type="password" id="l-pass" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn">Enter Maison</button>
+                </form>
+                <p class="auth-footer">
+                    New to Silverline? <a href="#" onclick="app.toggleAuth('signup')" class="auth-link">Join the
+                        Maison</a>
+                </p>
+            </div>
+
+            <!-- Sign Up View -->
+            <div id="auth-signup" class="auth-view">
+                <p class="auth-subtitle">Begin Your Journey</p>
+                <form id="signup-form">
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" id="s-email" placeholder="email@maison.com" required>
+                    </div>
+                    <div class="form-group" style="text-align: left; margin-bottom: 2rem;">
+                        <label>Passphrase</label>
+                        <input type="password" id="s-pass" placeholder="••••••••" required>
+                    </div>
+                    <div class="form-group" style="text-align: left; margin-bottom: 4rem;">
+                        <label>Choose Your Persona</label>
+                        <select id="s-role" required>
+                            <option value="customer">The Connoisseur (Customer)</option>
+                            <option value="seller">The Curator (Seller)</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn">Create Identity</button>
+                </form>
+                <p class="auth-footer">
+                    Already identified? <a href="#" onclick="app.toggleAuth('login')" class="auth-link">Enter
+                        Maison</a>
+                </p>
+
+                <button class="btn" style="margin-top: 2rem; background:#000000; color:goldenrod;"
+                    onclick="app.resendVerification()">Resend Verification</button>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <div class="header-container"
+            style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+            <div class="menu-toggle" id="mobile-menu-btn">☰</div>
+            <div class="brand">silverline</div>
+            <nav id="nav-container">
+                <ul id="main-nav">
+                    <li><a href="#" class="nav-link active" data-section="home">Home</a></li>
+                    <li><a href="#" class="nav-link" data-section="boutique" data-key="nav_boutique">Gallery</a></li>
+                    <li><a href="#" class="nav-link" data-section="search">Search</a></li>
+                    <li class="seller-only"><a href="#" class="nav-link" data-section="atelier"
+                            data-key="nav_atelier">Workshop</a></li>
+                    <li class="seller-only"><a href="#" class="nav-link" data-section="intelligence"
+                            data-key="nav_intelligence">Intelligence</a></li>
+                    <li class="customer-only"><a href="#" class="nav-link" data-section="wishlist">Wishlist</a></li>
+                    <li class="customer-only"><a href="#" class="nav-link" data-section="orders">Orders</a></li>
+                    <li class="admin-only"><a href="#" class="nav-link" data-section="management"
+                            data-key="nav_management">Maison Control</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <div class="header-action-item" id="theme-toggle" title="Switch Aesthetic">🌓</div>
+                <div class="header-action-item" data-section="notifications">
+                    🔔 <span id="notif-count" class="notif-badge">0</span>
+                </div>
+                <div class="header-action-item customer-only" data-section="profile">👤</div>
+                <div class="header-action-item cart-status" data-section="cart">
+                    <span id="bag-count" class="bag-count">0</span> <span data-key="items_label">Treasures</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Global logout link -->
+    <div class="logout-container">
+        <a href="#" onclick="app.logout()" class="logout-link">Exit Session</a>
+    </div>
+
+    <main class="container">
+        <!-- Home Section -->
+        <section id="home" class="active">
+            <div class="hero animate-up" style="text-align: center; padding: 6rem 1rem; margin-bottom: 2rem;">
+                <h1 class="extra-large">Bespoke Elegance</h1>
+                <p style="margin-top: 1rem; color: #000000; letter-spacing: 1px;">Curated selections for the discerning
+                    connoisseur.</p>
+                <button class="btn" style="margin-top: 3rem; width: auto;" onclick="app.switchSection('boutique')">Enter
+                    the
+                    Gallery</button>
+            </div>
+            <div class="home-featured" style="margin-top: 4rem; text-align: center;">
+                <h3 class="section-title-muted" style="text-align: center; margin-bottom: 2rem;">Newest Acquisitions
+                </h3>
+                <div id="home-featured-display" class="product-grid"></div>
+            </div>
+        </section>
+
+        <!-- Search Section -->
+        <section id="search">
+            <div class="hero-mini animate-up" style="text-align: center;">
+                <h1 class="extra-large">Discover</h1>
+                <p>Search the Maison's archives</p>
+                <input type="text" id="global-search-input" placeholder="What are you looking for?"
+                    style="width: 100%; max-width: 600px; padding: 1.5rem; margin-top: 3rem; background: rgba(255,255,255,0.05); border: 1px solid #333; color: #fff; font-size: 1.2rem; outline: none; border-radius: 4px;">
+            </div>
+            <div id="search-results-display" class="product-grid" style="margin-top: 3rem;">
+                <p class="empty-msg">Begin typing to uncover treasures.</p>
+            </div>
+        </section>
+
+        <!-- Boutique Section (Storefront) -->
+        <section id="boutique">
+            <div class="hero-mini animate-up">
+                <div class="flex-between">
+                    <h1 data-key="boutique_title" class="extra-large">The Exquisite Curation</h1>
+                    <button id="filter-toggle-btn" class="btn-sm mobile-only">Filter</button>
+                </div>
+                <p data-key="boutique_sub" class="curated">Personalized ensembles selected for your unique aesthetic
+                    profile. A silent dialogue between fabric and form.</p>
+            </div>
+
+            <div class="boutique-layout">
+                <aside class="filter-sidebar">
+                    <div class="filter-group">
+                        <label>Search Collection</label>
+                        <input type="text" id="search-input" placeholder="Keyword...">
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Aesthetic</label>
+                        <div class="filter-list">
+                            <button class="filter-btn active" data-filter="all">Everything</button>
+                            <button class="filter-btn" data-filter="minimalist">Minimalist</button>
+                            <button class="filter-btn" data-filter="avant-garde">Avant-Garde</button>
+                            <button class="filter-btn" data-filter="classic">Classic</button>
+                            <button class="filter-btn" data-filter="street">Street Luxury</button>
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Valuation Range</label>
+                        <div class="flex-between">
+                            <input type="number" id="min-price" placeholder="Min" class="price-input">
+                            <span>—</span>
+                            <input type="number" id="max-price" placeholder="Max" class="price-input">
+                        </div>
+                    </div>
+
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select id="sort-select">
+                            <option value="newest">Newest First</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="name">Alphabetical</option>
+                        </select>
+                    </div>
+                </aside>
+
+                <div id="product-display" class="product-grid">
+                    <!-- Products will be injected here -->
+                    <div class="empty-state empty-state-luxury" id="empty-state">
+                        <h2 data-key="empty_title">Awaiting the Curator's Touch</h2>
+                        <button class="btn seller-only btn-centered" onclick="app.switchSection('atelier')">Begin
+                            Curation</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Atelier Section (Management) -->
+        <section id="atelier">
+            <div class="hero-mini animate-up">
+                <h1 class="medium">Inventory Oversight</h1>
+                <p class="system-tag">Functional System Interface</p>
+            </div>
+
+            <div class="management-container">
+                <div class="form-card">
+                    <h3 class="section-title-muted">Register Digital Asset</h3>
+                    <form id="product-form">
+                        <div class="form-group">
+                            <label>Identification</label>
+                            <input type="text" id="p-name" placeholder="Piece designation" required>
+                        </div>
+                        <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 5rem;">
+                            <div>
+                                <label>Valuation (USD)</label>
+                                <input type="number" id="p-price" placeholder="0" required>
+                            </div>
+                            <div>
+                                <label>Aesthetic category</label>
+                                <select id="p-category" required>
+                                    <option value="minimalist">Minimalist</option>
+                                    <option value="avant-garde">Avant-Garde</option>
+                                    <option value="classic">Classic</option>
+                                    <option value="street">Street Luxury</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Visual Asset Resource</label>
+                            <input type="url" id="p-image" placeholder="HTTPS link" required>
+                        </div>
+                        <button type="submit" class="btn">Update Registry</button>
+                    </form>
+                </div>
+
+                <div class="inventory-list" style="margin-top: 15rem;">
+                    <h3 class="section-title-muted">Asset Registry</h3>
+                    <div id="inventory-display" class="product-grid">
+                        <!-- Inventory items will be injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Intelligence Section (Dashboard) -->
+        <section id="intelligence">
+            <div class="hero-mini animate-up">
+                <h1 class="medium">Maison Intelligence</h1>
+                <p class="system-tag">Operational Insights & Performance</p>
+            </div>
+
+            <div class="dashboard-grid" id="intelligence-stats">
+                <!-- KPI Cards -->
+                <div class="stat-card animate-up" style="transition-delay: 0.1s;">
+                    <label>Total Revenue</label>
+                    <div class="value" id="stat-revenue">₹0</div>
+                </div>
+                <div class="stat-card animate-up" style="transition-delay: 0.2s;">
+                    <label>Acquisitions</label>
+                    <div class="value" id="stat-orders">0</div>
+                </div>
+                <div class="stat-card animate-up" style="transition-delay: 0.3s;">
+                    <label>Average Valuation</label>
+                    <div class="value" id="stat-aov">₹0</div>
+                </div>
+
+                <!-- Sales Chart -->
+                <div class="chart-card">
+                    <h3>7-Day Performance Trend</h3>
+                    <div id="sales-chart" class="chart-container">
+                        <!-- Chart bars injected here -->
+                    </div>
+                </div>
+
+                <!-- Top Products -->
+                <div class="top-products-card">
+                    <h3>Leading Assets</h3>
+                    <div id="top-products-list">
+                        <!-- Top products injected here -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section id="profile">
+            <div class="hero-mini animate-up">
+                <h1>Maison Identity</h1>
+                <p>Personalize your bespoke experience</p>
+            </div>
+            <div class="profile-container">
+                <form id="profile-form">
+                    <div class="profile-grid">
+                        <!-- Personal Info -->
+                        <div class="profile-card">
+                            <h3>Personal Registry</h3>
+                            <div class="form-group">
+                                <label>Profile Visual (URL)</label>
+                                <input type="url" id="pr-photo" placeholder="HTTPS Link">
+                            </div>
+                            <div class="form-group">
+                                <label>Full Name</label>
+                                <input type="text" id="pr-name" placeholder="Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone Methodology</label>
+                                <input type="tel" id="pr-phone" placeholder="+00 0000000000">
+                            </div>
+                            <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                                <div>
+                                    <label>Gender</label>
+                                    <select id="pr-gender">
+                                        <option value="">Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                        <option value="Non-binary">Non-binary</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label>Birth Date</label>
+                                    <input type="date" id="pr-dob">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sizes -->
+                        <div class="profile-card">
+                            <h3>Bespoke Measurements</h3>
+                            <div class="form-group">
+                                <label>Shirt/Tops Size</label>
+                                <select id="pr-shirt-size">
+                                    <option value="S">Small</option>
+                                    <option value="M">Medium</option>
+                                    <option value="L">Large</option>
+                                    <option value="XL">Extra Large</option>
+                                </select>
+                            </div>
+                            <div class="form-group grid-2">
+                                <div>
+                                    <label>Pant/Waist</label>
+                                    <input type="number" id="pr-pant-size" placeholder="Inches">
+                                </div>
+                                <div>
+                                    <label>Shoe Size 👟</label>
+                                    <input type="number" id="pr-shoe-size" placeholder="EU/UK">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Silhouette Preference</label>
+                                <select id="pr-body-fit">
+                                    <option value="Slim">Slim Fit</option>
+                                    <option value="Regular">Regular Fit</option>
+                                    <option value="Oversized">Oversized</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Preferences -->
+                        <div class="profile-card">
+                            <h3>Aesthetic Curation</h3>
+                            <div class="form-group">
+                                <label>Categories of Interest</label>
+                                <div class="checkbox-grid">
+                                    <label><input type="checkbox" class="pref-cat" value="Casual"> Casual</label>
+                                    <label><input type="checkbox" class="pref-cat" value="Streetwear">
+                                        Streetwear</label>
+                                    <label><input type="checkbox" class="pref-cat" value="Formal"> Formal</label>
+                                    <label><input type="checkbox" class="pref-cat" value="Ethnic"> Ethnic</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Chromatic Palette 🎨</label>
+                                <input type="text" id="pr-colors" placeholder="Preferred colors">
+                            </div>
+                            <div class="form-group">
+                                <label>Preferred Maisons (Brands)</label>
+                                <input type="text" id="pr-brands" placeholder="Brands you admire">
+                            </div>
+                            <div class="form-group">
+                                <label>Budgetary Range 💰</label>
+                                <select id="pr-budget">
+                                    <option value="Luxury">Luxury (Unlimited)</option>
+                                    <option value="Premium">Premium ($1000 - $5000)</option>
+                                    <option value="Contemporary">Contemporary ($200 - $1000)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Addresses -->
+                        <div class="profile-card">
+                            <h3>Residency Details</h3>
+                            <div class="form-group">
+                                <label>Primary Residence (Home)</label>
+                                <input type="text" id="pr-home-address" placeholder="Full address">
+                            </div>
+                            <div class="form-group">
+                                <label>Professional Residence (Work)</label>
+                                <input type="text" id="pr-work-address" placeholder="Office details">
+                            </div>
+                            <div class="form-group">
+                                <label>Postal Index (Pincode)</label>
+                                <input type="text" id="pr-pincode" placeholder="000000">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-centered">Update Identity</button>
+                </form>
+            </div>
+
+            <div class="profile-extensions margin-top-xl">
+                <div class="ext-group">
+                    <h3>Recently Observed 👀</h3>
+                    <div id="recently-viewed-display" class="product-grid"></div>
+                </div>
+                <div class="ext-group margin-top-lg">
+                    <div class="flex-between margin-bottom-lg">
+                        <h3>Saved Ensembles (Outfits)</h3>
+                        <button class="btn-sm" onclick="app.saveOutfit()">Curate Current Cart as Outfit</button>
+                    </div>
+                    <div id="saved-outfits-display" class="outfit-grid"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wishlist Section -->
+        <section id="wishlist">
+            <div class="hero-mini animate-up">
+                <h1 class="extra-large">Treasures</h1>
+                <p>Items awaiting your final selection</p>
+            </div>
+            <div id="wishlist-display" class="product-grid"></div>
+        </section>
+
+        <!-- Cart Section -->
+        <section id="cart">
+            <div class="hero-mini animate-up">
+                <h1 class="extra-large">Selected Ensembles</h1>
+
+                <p>Review your collection before final acquisition</p>
+            </div>
+            <div class="cart-container-main">
+                <div id="cart-display" class="cart-items-list"></div>
+                <div class="cart-summary">
+                    <h3>Summary</h3>
+                    <div class="summary-row">
+                        <span>Items</span>
+                        <span id="cart-count">0</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Valuation</span>
+                        <span id="cart-total-value">₹0</span>
+                    </div>
+                    <button class="btn" onclick="app.switchSection('checkout')">Proceed to Checkout</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Checkout Section -->
+        <section id="checkout">
+            <div class="hero-mini animate-up">
+                <h1 class="extra-large">Final Acquisition</h1>
+                <p>Securing your selections into the Maison registry</p>
+            </div>
+            <div class="checkout-grid">
+                <div class="checkout-form">
+                    <h3>Payment Methodology</h3>
+                    <div class="payment-options">
+                        <label class="payment-card">
+                            <input type="radio" name="payment" value="card" checked>
+                            <span>Digital Credit</span>
+                        </label>
+                        <label class="payment-card">
+                            <input type="radio" name="payment" value="upi">
+                            <span>Unified Interface (UPI)</span>
+                        </label>
+                        <label class="payment-card">
+                            <input type="radio" name="payment" value="cod">
+                            <span>Acquisition on Delivery</span>
+                        </label>
+                    </div>
+                    <button class="btn" style="margin-top: 5rem;" onclick="app.checkout()">Confirm Acquisition</button>
+                </div>
+                <div class="checkout-summary">
+                    <h3>Order Inventory</h3>
+                    <div id="checkout-items"></div>
+                    <div class="summary-row total">
+                        <span>Final Valuation</span>
+                        <span id="checkout-total">₹0</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Orders Section -->
+        <section id="orders">
+            <div class="hero-mini animate-up">
+                <h1 class="extra-large">Acquisition History</h1>
+                <p>Status of your bespoke orders</p>
+            </div>
+            <div id="orders-display" class="orders-list"></div>
+        </section>
+
+        <!-- Management Section (Admin Only) -->
+        <section id="management">
+            <div class="hero-mini">
+                <h1 class="extra-large">Maison Control</h1>
+                <p>Global oversight of the Silverline ecosystem</p>
+            </div>
+            <div id="management-display"></div>
+        </section>
+
+        <!-- Notifications Section -->
+        <section id="notifications">
+            <div class="hero-mini">
+                <h1 class="extra-large">Maison Alerts</h1>
+                <p>Stay informed on the latest occurrences</p>
+            </div>
+            <div id="notification-list" class="notif-center"></div>
+        </section>
+    </main>
+
+    <div id="toast-container"></div>
+
+    <!-- Mobile Bottom Navigation -->
+    <div class="mobile-bottom-nav">
+        <div class="mob-nav-item active" data-section="home">🏠</div>
+        <div class="mob-nav-item" data-section="boutique">🛍️</div>
+        <div class="mob-nav-item" data-section="search">🔍</div>
+        <div class="mob-nav-item" data-section="wishlist">❤️</div>
+        <div class="mob-nav-item" data-section="cart">🛒</div>
+        <div class="mob-nav-item" data-section="profile">👤</div>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container"></div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

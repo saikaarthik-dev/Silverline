@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+.env
+dist/
+.netlify/
+*.zip
+android/.gradle/
+android/build/
+android/app/build/
